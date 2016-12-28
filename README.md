@@ -1,0 +1,2 @@
+# custom_slogan
+The module allows to have a custom slogan on a drupal website. The modules admin form allows you to set slogans using tokens for each content type, each vocabulary, front and a default slogan. It overrides the slogan from theme variable. In addition to it the module also provides a text field in all nodes/terms for content types/vocabulary for which custom slogans are enabled from admin page of the module. The slogans at module and term level will override the pattern set for the content type/vocabulary.
