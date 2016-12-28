@@ -1,0 +1,7 @@
+custom_slogan.content:
+  path: '/customslogan'
+  defaults:
+    _controller: '\Drupal\custom_slogan\Controller\SloganController::content'
+    _title: 'Custom Slogan'
+  requirements:
+    _permission: 'access content'

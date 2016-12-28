@@ -1,0 +1,6 @@
+custom_slogan.admin:
+  title: 'Custom Slogan Settings'
+  description: 'Settings of Custom Slogan Module'
+  parent: system.admin_config_development
+  route_name: custom_slogan.content
+  weight: 10
