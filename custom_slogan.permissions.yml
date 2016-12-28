@@ -1,0 +1,9 @@
+administer custom slogan:
+  title: 'Administer Custom Slogan'
+  description: 'administer custom slogan'
+  restrict access: TRUE
+
+set custom slogan:
+  title: 'Set Custom Slogan'
+  description: 'set custom slogan'
+  restrict access: TRUE
