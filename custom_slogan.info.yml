@@ -1,0 +1,12 @@
+name: Custom Slogan
+description: This is a module to support custom slogans on each node, node type, taxonomy. Tokens can be used to define pattern.
+package: SEO
+version: 8.x-1.x-dev
+
+type: module
+core: 8.x
+
+dependencies:
+  - token:token
+
+configure: custom_slogan.settings
