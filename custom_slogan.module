@@ -1,0 +1,14 @@
+<?php
+/**
+ * @file
+ * Custom Slogan Module
+ */
+
+/**
+ * Implements hook_help().
+ */
+function custom_slogan_help($path, $arg) {
+  // This is moved on an experimental basis.
+  module_load_include('inc', 'custom_slogan', 'custom_slogan.help');
+  return _custom_slogan_help($path, $arg);
+}
