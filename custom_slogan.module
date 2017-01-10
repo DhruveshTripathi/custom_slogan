@@ -12,3 +12,16 @@ function custom_slogan_help($path, $arg) {
   module_load_include('inc', 'custom_slogan', 'custom_slogan.help');
   return _custom_slogan_help($path, $arg);
 }
+
+/**
+ * Implements hook_menu().
+ */
+function snippets_menu() {
+  $items['admin/config/content/custom_slogan'] = array(
+    'title' => 'Custom Slogan',
+    'description' => "Configure Custom Slogan module.",
+    'route_name' => 'custom_slogan.settings',
+  );
+
+  return $items;
+}

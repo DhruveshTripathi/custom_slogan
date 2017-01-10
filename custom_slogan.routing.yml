@@ -1,7 +1,7 @@
 custom_slogan.content:
   path: '/customslogan'
   defaults:
-    _controller: '\Drupal\custom_slogan\Controller\SloganController::content'
+    _form: '\Drupal\custom_slogan\Form\customsloganSettingsForm'
     _title: 'Custom Slogan'
   requirements:
-    _permission: 'access content'
+    _permission: 'administer site configuration'
