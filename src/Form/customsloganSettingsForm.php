@@ -55,6 +55,48 @@ class customsloganSettingsForm extends ConfigFormBase {
     return parent::buildForm($form, $form_state);
   }
 
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+  public function custom_slogan_form_node_type_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+
+    if (!user_access('administer custom slogan')) return;
+
+    $form['custom_slogan'] = array(
+      '#type' => 'fieldset',
+      '#title' => 'Custom Slogan Setting',
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE,
+      '#tree' => TRUE,
+      '#group' => 'additional_settings',
+    );
+    $form['custom_slogan']['show_field'] = array(
+      '#type' => 'checkboxes',
+      '#title' => t('Custom Slogan Field'),
+      '#description' => 'If checked it will enable custom slogan for this content type.',
+      '#options' => array('show_field' => t('Show field')),
+      '#default_value' => variable_get('custom_slogan_type_' . $form['#node_type']->type . '_showfield', 0) ? array('show_field') : array(),
+    );
+    $form['custom_slogan']['pattern'] = array(
+      '#type'  =>  'textfield',
+      '#title'  =>  t('Custom slogan pattern'),
+      '#default_value'  =>  variable_get('custom_slogan_type_' . $form['#node_type']->type, ''),
+      '#description'  =>  t('Enter custom Slogan pattern'),
+      '#maxlength' => 255,
+    );
+  // Add the token help to a collapsed fieldset at the end of the configuration page.
+    $form['custom_slogan']['token_help'] = array(
+      '#type'  =>  'fieldset',
+      '#title'  =>  t('Available Tokens List'),
+      '#collapsible'  =>  TRUE,
+      '#collapsed'  =>  TRUE,
+    );
+    $form['custom_slogan']['token_help']['content'] = array(
+      '#theme'  =>  'token_tree',
+      '#token_types'  =>  array(),
+    );
+  }
+
   /**
  * {@inheritdoc}
  */
