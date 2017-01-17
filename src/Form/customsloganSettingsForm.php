@@ -55,6 +55,24 @@ class customsloganSettingsForm extends ConfigFormBase {
     return parent::buildForm($form, $form_state);
   }
 
+  /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+  public function custom_slogan_form_taxonomy_form_term_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+    if (!user_access('set custom slogan')) return;
+
+    if (variable_get('custom_slogan_vocab_' . $form['#vocabulary']->vid . '_showfield', 0)) {
+      $form['advanced']['custom_slogan'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Custom Slogan'),
+      '#default_value' => isset($form['tid']) ? custom_slogan_load_slogan($form['tid']['#value'], 'term') : '',
+      '#size' => 60,
+      '#maxlength' => 255,
+      '#weight' => -20,
+    );
+    }
+  }
+
 /**
  * Implements hook_form_FORM_ID_alter().
  */
@@ -107,4 +125,8 @@ class customsloganSettingsForm extends ConfigFormBase {
 
     parent::submitForm($form, $form_state);
   }
+
+  /**
+ * Implements hook_entity_load().
+ */
 }
