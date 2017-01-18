@@ -9,6 +9,7 @@ namespace Drupal\custom_slogan\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Configure Custom Slogan settings for this site.
@@ -129,4 +130,94 @@ class customsloganSettingsForm extends ConfigFormBase {
   /**
  * Implements hook_entity_load().
  */
+  public function custom_slogan_entity_load($entities) {
+    foreach ($nodes as $node) {
+
+    }
+  }
+
+  /**
+ * Implement hook_node_insert().
+ */
+  public function custom_slogan_node_insert(EntityInterface $node) {
+    if (user_access('set custom slogan') && isset($node->custom_slogan) && drupal_strlen(trim($node->custom_slogan)) > 0) {
+      db_insert('custom_slogan')
+        ->fields(array(
+        'type' => 'node',
+        'id' => $node->nid,
+        'custom_slogan' => $node->custom_slogan
+      ))
+        ->execute();
+    }
+  }
+
+  /**
+ * Implement hook_node_update().
+ */
+  public function custom_slogan_node_update(EntityInterface $node) {
+    if (user_access('set custom slogan') && isset($node->custom_slogan)) {
+      if (drupal_strlen(trim($node->page_title)) > 0) {
+        db_merge('custom_slogan')
+          ->key(array('type' => 'node', 'id' => $node->nid))
+          ->fields(array('custom_slogan' => $node->custom_slogan))
+          ->execute();
+      }
+      else {
+        custom_slogan_node_delete(EntityInterface $node);
+      }
+    }
+  }
+
+  /**
+ * Implement hook_node_delete().
+ */
+  public function custom_slogan_node_delete(EntityInterface $node) {
+    db_delete('custom_slogan')
+      ->condition('type', 'node')
+      ->condition('id', $node->nid)
+      ->execute();
+  }
+
+/**
+ * Implement hook_taxonomy_term_insert().
+ */
+  public function custom_slogan_taxonomy_term_insert(Drupal taxonomy Term $term) {
+    if (user_access('set custom slogan') && isset($term->custom_slogan) && drupal_strlen(trim($term->custom_slogan)) > 0) {
+      db_insert('custom_slogan')
+        ->fields(array(
+        'type' => 'term',
+        'id' => $term->tid,
+        'custom_slogan' => $term->custom_slogan
+      ))
+        ->execute();
+    }
+  }
+
+
+/**
+ * Implement hook_taxonomy_term_update().
+ */
+  public function custom_slogan_taxonomy_term_update(Drupal taxonomy Term $term) {
+    if (user_access('set custom slogan')) {
+      if (isset($term->custom_slogan) && drupal_strlen(trim($term->custom_slogan)) > 0) {
+        db_merge('custom_slogan')
+          ->key(array('type' => 'term', 'id' => $term->tid))
+          ->fields(array('custom_slogan' => $term->custom_slogan))
+          ->execute();
+      }
+      else {
+        custom_slogan_taxonomy_term_delete(Drupal taxonomy Term $term);
+      }
+    }
+  }
+
+  /**
+ * Implement hook_taxonomy_term_delete().
+ */
+  public function custom_slogan_taxonomy_term_delete(Drupal taxonomy Term $term) {
+    db_delete('custom_slogan')
+      ->condition('type', 'term')
+      ->condition('id', $term->tid)
+      ->execute();
+  }
 }
